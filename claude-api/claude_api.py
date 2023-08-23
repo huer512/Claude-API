@@ -9,7 +9,9 @@ import re
 class Client:
   base_url = 'https://claude.ai'
 
-  def __init__(self, cookie):
+  def __init__(self, cookie ,base_url=None):
+    if base_url is not None:
+      self.base_url = base_url
     self.cookie = cookie
     self.organization_id = self.get_organization_id()
 
