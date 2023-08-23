@@ -7,13 +7,14 @@ import re
 
 
 class Client:
+  base_url = 'https://claude.ai'
 
   def __init__(self, cookie):
     self.cookie = cookie
     self.organization_id = self.get_organization_id()
 
   def get_organization_id(self):
-    url = "https://claude.ai/api/organizations"
+    url = f"{self.base_url}/api/organizations"
 
     headers = {
         'User-Agent':
@@ -49,7 +50,7 @@ class Client:
 
   # Lists all the conversations you had with Claude
   def list_all_conversations(self):
-    url = f"https://claude.ai/api/organizations/{self.organization_id}/chat_conversations"
+    url = f"{self.base_url}/api/organizations/{self.organization_id}/chat_conversations"
 
     headers = {
         'User-Agent':
@@ -75,7 +76,7 @@ class Client:
 
   # Send Message to Claude
   def send_message(self, prompt, conversation_id, attachment=None,timeout=500):
-    url = "https://claude.ai/api/append_message"
+    url = f"{self.base_url}/api/append_message"
 
     # Upload attachment if provided
     attachments = []
@@ -137,7 +138,7 @@ class Client:
 
   # Deletes the conversation
   def delete_conversation(self, conversation_id):
-    url = f"https://claude.ai/api/organizations/{self.organization_id}/chat_conversations/{conversation_id}"
+    url = f"{self.base_url}/api/organizations/{self.organization_id}/chat_conversations/{conversation_id}"
 
     payload = json.dumps(f"{conversation_id}")
     headers = {
@@ -166,7 +167,7 @@ class Client:
 
   # Returns all the messages in conversation
   def chat_conversation_history(self, conversation_id):
-    url = f"https://claude.ai/api/organizations/{self.organization_id}/chat_conversations/{conversation_id}"
+    url = f"{self.base_url}/api/organizations/{self.organization_id}/chat_conversations/{conversation_id}"
 
     headers = {
         'User-Agent':
@@ -194,7 +195,7 @@ class Client:
     return formatted_uuid
 
   def create_new_chat(self):
-    url = f"https://claude.ai/api/organizations/{self.organization_id}/chat_conversations"
+    url = f"{self.base_url}/api/organizations/{self.organization_id}/chat_conversations"
     uuid = self.generate_uuid()
 
     payload = json.dumps({"uuid": uuid, "name": ""})
@@ -243,7 +244,7 @@ class Client:
           "file_size": file_size,
           "extracted_content": file_content
       }
-    url = 'https://claude.ai/api/convert_document'
+    url = '{self.base_url}/api/convert_document'
     headers = {
         'User-Agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0',
@@ -276,7 +277,7 @@ class Client:
     
   # Renames the chat conversation title
   def rename_chat(self, title, conversation_id):
-    url = "https://claude.ai/api/rename_chat"
+    url = f"{self.base_url}/api/rename_chat"
 
     payload = json.dumps({
         "organization_uuid": f"{self.organization_id}",
